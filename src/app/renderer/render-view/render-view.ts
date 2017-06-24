@@ -19,7 +19,7 @@ export default class RenderView {
     shader.uniforms = this._uniforms
 
     //this._renderTarget = new RenderTarget(shader, window.innerWidth, window.innerHeight)
-    this._renderTarget = new RenderTarget(shader, 1024, 1024)
+    this._renderTarget = new RenderTarget(shader, 512, 512)
   }
 
   public render(texture: WebGLTexture) {

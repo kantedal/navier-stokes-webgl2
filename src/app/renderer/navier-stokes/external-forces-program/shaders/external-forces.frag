@@ -9,7 +9,12 @@ uniform sampler2D velocityField;
 
 uniform vec2 externalForce;
 uniform vec2 resolution;
+uniform float dt;
 
 void main() {
-	outColor = vec4(texture(voxels, v_texCoord).rgb, 1.0);
+  vec2 currentVelocity = texture(velocityField, v_texCoord).xy;
+  //currentVelocity = currentVelocity + dt * externalForce;
+  currentVelocity = currentVelocity + dt * vec2(sin((v_texCoord.x - 1.0) * 2.0), cos((v_texCoord.y - 1.0) * 2.0));
+	outColor = vec4(currentVelocity, 0.0, 1.0);
+	//outColor = vec4(sin((v_texCoord.x - 1.0) * 2.0), cos((v_texCoord.x - 1.0) * 2.0), 0.0, 1.0);
 }

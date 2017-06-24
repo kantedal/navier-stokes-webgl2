@@ -20,7 +20,7 @@ export default class ExternalForcesProgram extends Program<IExternalForcesUnifor
     let uniforms: IExternalForcesUniforms = {
       voxels: { type: TEXTURE_TYPE, value: null },
       gridResolution: { type: VEC2_TYPE, value: [512, 512] },
-      externalForce: { type: VEC2_TYPE, value: [0.0, -9.82] },
+      externalForce: { type: VEC2_TYPE, value: [0.0, -0.82] },
       dt: { type: FLOAT_TYPE, value: 0.02 }
     }
 
