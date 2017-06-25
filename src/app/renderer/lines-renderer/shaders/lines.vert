@@ -15,8 +15,7 @@ void main() {
     gl_Position = vec4(coordinate, 0.0, 1.0);
   }
   else {
-    //gl_Position = vec4(coordinate + 0.05 * vec2(sin(a_texCoords.x - 1.0), sin(a_texCoords.y - 1.0)), 0.0, 1.0);
-    gl_Position = vec4(coordinate + 0.05 * texture(velocityField, a_texCoords).xy, 0.0, 1.0);
+    gl_Position = vec4(coordinate + 0.3 * texture(velocityField, a_texCoords).xy, 0.0, 1.0);
   }
 
   v_isStartingPoint = a_isStartingPoint;
