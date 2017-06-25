@@ -7,23 +7,32 @@ import RenderTarget from "../utils/render-target";
 const baseRendererVert = require('raw-loader!glslify-loader!./shaders/render-view.vert');
 const baseRendererFrag = require('raw-loader!glslify-loader!./shaders/render-view.frag');
 
+export interface RenderViewUniforms {
+  velocityField: IUniform
+  colorField: IUniform
+  velocityVectors: IUniform
+}
+
 export default class RenderView {
   private _renderTarget: RenderTarget
-  private _uniforms: {[name: string]: IUniform}
+  private _uniforms: RenderViewUniforms
 
   constructor() {
     let shader = new Shader(baseRendererVert, baseRendererFrag)
     this._uniforms = {
-      u_texture: { type: TEXTURE_TYPE, value: null }
+      velocityField: { type: TEXTURE_TYPE, value: null },
+      colorField: { type: TEXTURE_TYPE, value: null },
+      velocityVectors: { type: TEXTURE_TYPE, value: null }
     }
     shader.uniforms = this._uniforms
 
-    //this._renderTarget = new RenderTarget(shader, window.innerWidth, window.innerHeight)
-    this._renderTarget = new RenderTarget(shader, 512, 512)
+    this._renderTarget = new RenderTarget(shader, window.innerWidth, window.innerHeight)
   }
 
-  public render(texture: WebGLTexture) {
-    this._uniforms['u_texture'].value = texture
+  public render(velocityField: WebGLTexture, colorField: WebGLTexture, velocityVectors: WebGLTexture) {
+    this._uniforms.velocityField.value = velocityField
+    this._uniforms.colorField.value = colorField
+    this._uniforms.velocityVectors.value = velocityVectors
 
     this._renderTarget.render()
   }

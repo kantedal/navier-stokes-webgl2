@@ -69,6 +69,7 @@ export default class PingPongFBO extends RenderTarget {
   }
 
   get texture(): WebGLTexture { return this._textures[1 - this._currentTexture] }
+  set texture(input: WebGLTexture) { this._textures[1 - this._currentTexture] = input }
   get lastTexture(): WebGLTexture { return this._textures[1 - this._currentTexture] }
   get textureData(): Uint8Array { return this._textureData }
 }

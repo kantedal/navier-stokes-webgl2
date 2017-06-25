@@ -17,7 +17,6 @@ export default class ClassifyVoxelsProgram extends Program<IClassifyVoxelsUnifor
   }
 
   render(): void {
-    console.log('classify voxels')
     this._program.render()
   }
 }

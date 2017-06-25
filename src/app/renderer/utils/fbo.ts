@@ -3,10 +3,10 @@ import RenderTarget from "./render-target";
 import {gl} from "./render-context";
 
 export default class FBO extends RenderTarget {
-  private _texture: WebGLTexture;
-  private _textureData: Uint8Array;
-  private _writeToTexture: boolean = false;
-  private _framebuffer: WebGLFramebuffer;
+  private _texture: WebGLTexture
+  private _textureData: Uint8Array
+  private _writeToTexture: boolean = false
+  private _framebuffer: WebGLFramebuffer
 
   constructor(shader: Shader, sizeX: number, sizeY: number) {
     super(shader, sizeX, sizeY);
