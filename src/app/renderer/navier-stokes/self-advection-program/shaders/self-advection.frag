@@ -28,5 +28,9 @@ void main() {
 //  else {
 //  	outColor = vec4(texture(velocityField, v_texCoord).xy, 0.0, 1.0);
 //  }
-  outColor = vec4(texture(velocityField, v_texCoord).xy, 0.0, 1.0);
+  vec2 currentCoord = v_texCoord.xy;
+  vec2 currentVelocity = texture(velocityField, currentCoord).xy;
+  vec2 newVelocity = texture(velocityField, currentCoord - dt * currentVelocity).xy;
+
+  outColor = vec4(newVelocity, 0.0, 1.0);
 }
