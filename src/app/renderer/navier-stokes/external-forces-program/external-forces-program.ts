@@ -14,6 +14,7 @@ export interface IExternalForcesUniforms {
   mousePosition: IUniform
   previousMousePosition: IUniform
   dt: IUniform
+  time: IUniform
 }
 
 export default class ExternalForcesProgram extends Program<IExternalForcesUniforms> {
@@ -28,14 +29,15 @@ export default class ExternalForcesProgram extends Program<IExternalForcesUnifor
       externalForce: { type: VEC2_TYPE, value: [0.0, -0.82] },
       mousePosition: { type: VEC2_TYPE, value: [0.0, 0.0]},
       previousMousePosition: { type: VEC2_TYPE, value: [0.0, 0.0]},
-      dt: { type: FLOAT_TYPE, value: 0.02 }
+      dt: { type: FLOAT_TYPE, value: 0.02 },
+      time: { type: FLOAT_TYPE, value: 0.0 }
     }
 
     super(vec2.fromValues(512, 512), externalForcesVert, externalForcesFrag, uniforms)
 
-    // const mouseAbort = () => {
-    //   this._mouseDown = false
-    // }
+    this._mousePosition = [0,0]
+    this._previousMousePosition = [0,0]
+
     window.onmousedown = e => {
       this._mouseDown = true
       this._previousMousePosition = [0,0]
@@ -45,26 +47,31 @@ export default class ExternalForcesProgram extends Program<IExternalForcesUnifor
     window.onabort = e => this._mouseDown = false
     window.onmouseout = e => this._mouseDown = false
     window.onmousemove = e => {
-      this._previousMousePosition = this._mousePosition
+      this._previousMousePosition = [this._mousePosition[0], this._mousePosition[1]]
       this._mousePosition = [e.clientX / window.innerWidth, 1.0 - e.clientY / window.innerHeight]
     }
   }
 
-  render(voxels: WebGLTexture): void {
+  render(time: number, voxels: WebGLTexture): void {
+    this._uniforms.time.value = time
+
     if (this._mouseDown) {
+      //this._uniforms.previousMousePosition.value = this._previousMousePosition
       this._uniforms.mousePosition.value = this._mousePosition
 
       if (this._mousePosition[0] == 0 && this._mousePosition[1] == 0) {
-        this._uniforms.previousMousePosition.value = this._mousePosition
+        this._uniforms.previousMousePosition.value = [this._mousePosition[0], this._mousePosition[1]]
       }
       else {
-        this._uniforms.previousMousePosition.value = this._previousMousePosition
+        this._uniforms.previousMousePosition.value = [this._previousMousePosition[0], this._previousMousePosition[1]]
       }
     }
     else {
       this._uniforms.mousePosition.value = [0,0]
       this._uniforms.previousMousePosition.value = [0,0]
     }
+
+    //console.log([this._uniforms.previousMousePosition.value[0] - this._uniforms.mousePosition.value[0], this._uniforms.previousMousePosition.value[1] - this._uniforms.mousePosition.value[1]])
 
     this._uniforms.voxels.value = voxels
     this._program.render()

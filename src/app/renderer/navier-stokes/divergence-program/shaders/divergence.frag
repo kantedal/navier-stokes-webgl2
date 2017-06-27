@@ -8,7 +8,7 @@ uniform sampler2D velocityField;
 uniform float dt;
 
 void main() {
-  float factor = (2.0 * 1.0 * 1.0) / dt;
+  float factor = (2.0 * 0.1 * 0.5) / dt;
 
   vec2 xStep = vec2(1.0, 0.0) / 512.0;
   vec2 yStep = vec2(0.0, 1.0) / 512.0;
